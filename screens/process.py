@@ -14,7 +14,7 @@ class ProcessComponent:
         tk.Label(self.frame, text=proc.name, width=10, anchor=tk.E).grid(row=1, column=0, sticky=tk.W)
         tk.Label(self.frame, textvariable=self.elapsed).grid(row=1, column=1, sticky=tk.W)
         tk.Label(self.frame, text=f'Total: {proc.seconds}s', width=20, anchor=tk.E).grid(row=1, column=5, sticky=tk.E)
-        ttk.Progressbar(self.frame, variable=self.progress,length=300, style="red.TProgressbar").grid(row=2, column=1, columnspan=5, padx=5, sticky=tk.NSEW)
+        ttk.Progressbar(self.frame, variable=self.progress, length=300).grid(row=2, column=1, columnspan=5, padx=5, sticky=tk.NSEW)
 
     def get_status(self, proc:Process):
         if(proc.state == Process.WAITING):
