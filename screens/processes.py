@@ -1,12 +1,12 @@
 from tkinter import ttk
 import tkinter as tk
 from screens.process import ProcessComponent
-from data.process import Process
 from data.queue import ProcessQueue
 
 class Processes:
     def __init__(self, root, processes: ProcessQueue,on_back, on_insert):
         self.frame = ttk.Frame(root, padding="5 5 5 5")
+        self.root = root
         self.proc_frame = ttk.Frame(root, padding="5 5 5 5")
         self.runing = False
         self.started = False
@@ -25,7 +25,11 @@ class Processes:
         ttk.Button(self.frame, text="Nuevo", command=lambda:self.insert_proc()).pack(side=tk.LEFT, expand=True, fill=tk.X)
 
     def set_after(self):
-        self.task_id = self.proc_frame.after(1000, self.tick)
+        self.task_id = self.root.after(1000, self.tick)
+
+    def cancel_task(self):
+        if(self.task_id is not None):
+            self.root.after_cancel(self.task_id)
 
     def start(self):
         self.runing = True
@@ -68,12 +72,6 @@ class Processes:
             return "En Ejecución"
         return "Pausado"
 
-
-    def cancel_task(self):
-        if(self.task_id is not None):
-            self.frame.after_cancel(self.task_id)
-
-
     def update(self):
         self.state.set(f'Estado: {self.get_state()}')
         for index, proc in enumerate(self.processComponents):
@@ -85,15 +83,16 @@ class Processes:
         self.processes.tick()
         self.update()
         if(not self.processes.finished):
-            self.task_id = self.frame.after(1000, self.tick)
+            self.set_after()
 
     def pack(self):
         self.proc_frame.pack(fill=tk.BOTH)
         self.frame.pack(fill=tk.BOTH)
 
     def unmount(self):
+        self.runing = False
         self.cancel_task()
-        self.frame.destroy()
         self.proc_frame.destroy()
+        self.frame.destroy()
         
 

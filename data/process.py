@@ -1,7 +1,8 @@
 class Process:
-    FINISH="finish"
-    WAITING="waiting"
-    RUNING="runing"
+    FINISH = "finish"
+    WAITING = "waiting"
+    RUNING = "runing"
+    QUEUED = "queued"
 
     def __init__(self, name: str, seconds: int):
         self.name = name
@@ -13,8 +14,8 @@ class Process:
 
     def tick(self):
         if(self.state == Process.RUNING):
-            self.elapsed +=1
-            self.remaining -=1
+            self.elapsed += 1
+            self.remaining -= 1
             self.progress = (self.elapsed / self.seconds) * 100
             if(self.progress >= 100):
                 self.progress = 99.9
