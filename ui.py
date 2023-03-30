@@ -10,7 +10,7 @@ from data.nouns import get_random
 class UI:
     def __init__(self):
         self.window = tk.Tk()
-        self.window.title("SRT")
+        self.window.title("Multiples colas")
         #self.window.attributes("-type", "dialog")
         self.processes_screen = None
         self.proc_num = tk.StringVar(value="5")
