@@ -10,7 +10,7 @@ class ProcessQueue:
         self.active: List[int] = list()
         self.finished = False
         self.active_index = 0
-        self.queues = 3
+        self.queues = 1
         self.started = False
 
     def is_finished(self):
@@ -29,8 +29,7 @@ class ProcessQueue:
                 shortest_index = index
         if (shortest_time == None):
             return None
-        self.active_index = shortest_index
-        return self.queue[shortest_index]
+        return shortest_index
 
     def get_next_inline(self):
         for index, process in enumerate(self.queue):
@@ -53,7 +52,7 @@ class ProcessQueue:
 
         updated_active_process = list()
         for queue_index in range(self.queues):
-            next_proc_index = self.get_next_inline()
+            next_proc_index = self.get_shortest_remaining()
             if len(self.active) <= queue_index or self.active[queue_index] is None:
                 updated_active_process.append(next_proc_index)
             else:
@@ -70,7 +69,6 @@ class ProcessQueue:
                 self.queue[next_proc_index].state = Process.QUEUED
 
         self.active = updated_active_process
-        print(updated_active_process)
 
         all_none = True
         for proc_index in self.active:
